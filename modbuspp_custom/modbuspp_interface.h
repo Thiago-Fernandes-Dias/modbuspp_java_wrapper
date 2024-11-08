@@ -24,7 +24,7 @@ extern "C"
 
     __attribute__((visibility("default"))) int read_input_registers(modbus *, uint16_t, uint16_t, uint16_t *);
 
-    __attribute__((visibility("default"))) int write_coil(modbus *, uint16_t, const bool &);
+    __attribute__((visibility("default"))) int write_coil(modbus *, uint16_t, const bool);
 
     __attribute__((visibility("default"))) int write_register(modbus *, uint16_t, const uint16_t &);
 

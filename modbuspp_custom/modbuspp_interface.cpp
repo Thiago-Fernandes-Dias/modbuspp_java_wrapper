@@ -57,7 +57,7 @@ __attribute__((visibility("default"))) int read_input_registers(modbus *obj, uin
     return obj->modbus_read_input_registers(p1, p2, p3);
 }
 
-__attribute__((visibility("default"))) int write_coil(modbus *obj, uint16_t p1, const bool &p2)
+__attribute__((visibility("default"))) int write_coil(modbus *obj, uint16_t p1, const bool p2)
 {
     return obj->modbus_write_coil(p1, p2);
 }
