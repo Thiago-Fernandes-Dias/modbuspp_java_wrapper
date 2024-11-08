@@ -13,7 +13,7 @@ public class Main {
         System.out.println("Calling a method from the modbus_client_interface class library");
 
         // Carregar a biblioteca de funções compartilhadas
-        System.load("/home/thiago/Projetos/modbuspp_java_wrapper/modbuspp_custom/modbuspp_interface.so");
+        System.load("/app/modbuspp_interface.so");
 
         // Espaço de memória fora da JVM
         Arena arena = Arena.ofConfined();
