@@ -25,7 +25,9 @@
 #include <iostream>
 
 #include <cstdio>
-#define LOG(fmt, ...) printf("[ modbuspp ]" fmt, ##__VA_ARGS__)
+#define LOG(fmt, ...) printf("[ modbuspp ]" \
+                             " " fmt "\n",  \
+                             ##__VA_ARGS__)
 
 #ifdef _WIN32
 // WINDOWS socket
@@ -102,18 +104,18 @@ public:
     modbus(std::string host, uint16_t port);
     ~modbus();
 
-    __declspec(dllexport) bool modbus_connect();
-    __declspec(dllexport) void modbus_close() const;
-    __declspec(dllexport) bool is_connected() const { return _connected; }
-    __declspec(dllexport) void modbus_set_slave_id(int id);
-    __declspec(dllexport) int modbus_read_coils(uint16_t address, uint16_t amount, bool *buffer);
-    __declspec(dllexport) int modbus_read_input_bits(uint16_t address, uint16_t amount, bool *buffer);
-    __declspec(dllexport) int modbus_read_holding_registers(uint16_t address, uint16_t amount, uint16_t *buffer);
-    __declspec(dllexport) int modbus_read_input_registers(uint16_t address, uint16_t amount, uint16_t *buffer);
-    __declspec(dllexport) int modbus_write_coil(uint16_t address, const bool &to_write);
-    __declspec(dllexport) int modbus_write_register(uint16_t address, const uint16_t &value);
-    __declspec(dllexport) int modbus_write_coils(uint16_t address, uint16_t amount, const bool *value);
-    __declspec(dllexport) int modbus_write_registers(uint16_t address, uint16_t amount, const uint16_t *value);
+    __attribute__((visibility("default"))) bool modbus_connect();
+    __attribute__((visibility("default"))) void modbus_close() const;
+    __attribute__((visibility("default"))) bool is_connected() const { return _connected; }
+    __attribute__((visibility("default"))) void modbus_set_slave_id(int id);
+    __attribute__((visibility("default"))) int modbus_read_coils(uint16_t address, uint16_t amount, bool *buffer);
+    __attribute__((visibility("default"))) int modbus_read_input_bits(uint16_t address, uint16_t amount, bool *buffer);
+    __attribute__((visibility("default"))) int modbus_read_holding_registers(uint16_t address, uint16_t amount, uint16_t *buffer);
+    __attribute__((visibility("default"))) int modbus_read_input_registers(uint16_t address, uint16_t amount, uint16_t *buffer);
+    __attribute__((visibility("default"))) int modbus_write_coil(uint16_t address, const bool &to_write);
+    __attribute__((visibility("default"))) int modbus_write_register(uint16_t address, const uint16_t &value);
+    __attribute__((visibility("default"))) int modbus_write_coils(uint16_t address, uint16_t amount, const bool *value);
+    __attribute__((visibility("default"))) int modbus_write_registers(uint16_t address, uint16_t amount, const uint16_t *value);
 
 private:
     bool _connected{};
@@ -128,14 +130,14 @@ private:
     WSADATA wsadata;
 #endif
 
-    __declspec(dllexport) void modbus_build_request(uint8_t *to_send, uint16_t address, int func) const;
-    __declspec(dllexport) int modbus_read(uint16_t address, uint16_t amount, int func);
-    __declspec(dllexport) int modbus_write(uint16_t address, uint16_t amount, int func, const uint16_t *value);
-    __declspec(dllexport) ssize_t modbus_send(uint8_t *to_send, size_t length);
-    __declspec(dllexport) ssize_t modbus_receive(uint8_t *buffer) const;
-    __declspec(dllexport) void modbuserror_handle(const uint8_t *msg, int func);
-    __declspec(dllexport) void set_bad_con();
-    __declspec(dllexport) void set_bad_input();
+    __attribute__((visibility("default"))) void modbus_build_request(uint8_t *to_send, uint16_t address, int func) const;
+    __attribute__((visibility("default"))) int modbus_read(uint16_t address, uint16_t amount, int func);
+    __attribute__((visibility("default"))) int modbus_write(uint16_t address, uint16_t amount, int func, const uint16_t *value);
+    __attribute__((visibility("default"))) ssize_t modbus_send(uint8_t *to_send, size_t length);
+    __attribute__((visibility("default"))) ssize_t modbus_receive(uint8_t *buffer) const;
+    __attribute__((visibility("default"))) void modbuserror_handle(const uint8_t *msg, int func);
+    __attribute__((visibility("default"))) void set_bad_con();
+    __attribute__((visibility("default"))) void set_bad_input();
 };
 
 /**
@@ -165,7 +167,7 @@ modbus::~modbus(void) = default;
  * Modbus Slave ID Setter
  * @param id  ID of the Modbus Server Slave
  */
-__declspec(dllexport) void modbus::modbus_set_slave_id(int id)
+__attribute__((visibility("default"))) void modbus::modbus_set_slave_id(int id)
 {
     _slaveid = id;
 }
@@ -174,7 +176,7 @@ __declspec(dllexport) void modbus::modbus_set_slave_id(int id)
  * Build up a Modbus/TCP Connection
  * @return   If A Connection Is Successfully Built
  */
-__declspec(dllexport) bool modbus::modbus_connect()
+__attribute__((visibility("default"))) bool modbus::modbus_connect()
 {
     if (HOST.empty() || PORT == 0)
     {
@@ -240,7 +242,7 @@ __declspec(dllexport) bool modbus::modbus_connect()
 /**
  * Close the Modbus/TCP Connection
  */
-__declspec(dllexport) void modbus::modbus_close() const
+__attribute__((visibility("default"))) void modbus::modbus_close() const
 {
     X_CLOSE_SOCKET(_socket);
 #ifdef _WIN32
@@ -255,7 +257,7 @@ __declspec(dllexport) void modbus::modbus_close() const
  * @param address   Reference Address
  * @param func      Modbus Functional Code
  */
-__declspec(dllexport) void modbus::modbus_build_request(uint8_t *to_send, uint16_t address, int func) const
+__attribute__((visibility("default"))) void modbus::modbus_build_request(uint8_t *to_send, uint16_t address, int func) const
 {
     to_send[0] = (uint8_t)(_msg_id >> 8u);
     to_send[1] = (uint8_t)(_msg_id & 0x00FFu);
@@ -275,7 +277,7 @@ __declspec(dllexport) void modbus::modbus_build_request(uint8_t *to_send, uint16
  * @param func      Modbus Functional Code
  * @param value     Data to Be Written
  */
-__declspec(dllexport) int modbus::modbus_write(uint16_t address, uint16_t amount, int func, const uint16_t *value)
+__attribute__((visibility("default"))) int modbus::modbus_write(uint16_t address, uint16_t amount, int func, const uint16_t *value)
 {
     int status = 0;
     uint8_t *to_send;
@@ -329,7 +331,7 @@ __declspec(dllexport) int modbus::modbus_write(uint16_t address, uint16_t amount
  * @param amount    Amount of Data to Read
  * @param func      Modbus Functional Code
  */
-__declspec(dllexport) int modbus::modbus_read(uint16_t address, uint16_t amount, int func)
+__attribute__((visibility("default"))) int modbus::modbus_read(uint16_t address, uint16_t amount, int func)
 {
     uint8_t to_send[12];
     modbus_build_request(to_send, address, func);
@@ -346,7 +348,7 @@ __declspec(dllexport) int modbus::modbus_read(uint16_t address, uint16_t amount,
  * @param amount     Amount of Registers to Read
  * @param buffer     Buffer to Store Data Read from Registers
  */
-__declspec(dllexport) int modbus::modbus_read_holding_registers(uint16_t address, uint16_t amount, uint16_t *buffer)
+__attribute__((visibility("default"))) int modbus::modbus_read_holding_registers(uint16_t address, uint16_t amount, uint16_t *buffer)
 {
     if (_connected)
     {
@@ -382,7 +384,7 @@ __declspec(dllexport) int modbus::modbus_read_holding_registers(uint16_t address
  * @param amount      Amount of Registers to Read
  * @param buffer      Buffer to Store Data Read from Registers
  */
-__declspec(dllexport) int modbus::modbus_read_input_registers(uint16_t address, uint16_t amount, uint16_t *buffer)
+__attribute__((visibility("default"))) int modbus::modbus_read_input_registers(uint16_t address, uint16_t amount, uint16_t *buffer)
 {
     if (_connected)
     {
@@ -418,7 +420,7 @@ __declspec(dllexport) int modbus::modbus_read_input_registers(uint16_t address, 
  * @param amount      Amount of Coils to Read
  * @param buffer      Buffer to Store Data Read from Coils
  */
-__declspec(dllexport) int modbus::modbus_read_coils(uint16_t address, uint16_t amount, bool *buffer)
+__attribute__((visibility("default"))) int modbus::modbus_read_coils(uint16_t address, uint16_t amount, bool *buffer)
 {
     if (_connected)
     {
@@ -459,7 +461,7 @@ __declspec(dllexport) int modbus::modbus_read_coils(uint16_t address, uint16_t a
  * @param amount    Amount of Bits to Read
  * @param buffer    Buffer to store Data Read from Input Bits
  */
-__declspec(dllexport) int modbus::modbus_read_input_bits(uint16_t address, uint16_t amount, bool *buffer)
+__attribute__((visibility("default"))) int modbus::modbus_read_input_bits(uint16_t address, uint16_t amount, bool *buffer)
 {
     if (_connected)
     {
@@ -497,7 +499,7 @@ __declspec(dllexport) int modbus::modbus_read_input_bits(uint16_t address, uint1
  * @param address    Reference Address
  * @param to_write   Value to be Written to Coil
  */
-__declspec(dllexport) int modbus::modbus_write_coil(uint16_t address, const bool &to_write)
+__attribute__((visibility("default"))) int modbus::modbus_write_coil(uint16_t address, const bool &to_write)
 {
     if (_connected)
     {
@@ -528,7 +530,7 @@ __declspec(dllexport) int modbus::modbus_write_coil(uint16_t address, const bool
  * @param address   Reference Address
  * @param value     Value to Be Written to Register
  */
-__declspec(dllexport) int modbus::modbus_write_register(uint16_t address, const uint16_t &value)
+__attribute__((visibility("default"))) int modbus::modbus_write_register(uint16_t address, const uint16_t &value)
 {
     if (_connected)
     {
@@ -559,7 +561,7 @@ __declspec(dllexport) int modbus::modbus_write_register(uint16_t address, const 
  * @param amount   Amount of Coils to Write
  * @param value    Values to Be Written to Coils
  */
-__declspec(dllexport) int modbus::modbus_write_coils(uint16_t address, uint16_t amount, const bool *value)
+__attribute__((visibility("default"))) int modbus::modbus_write_coils(uint16_t address, uint16_t amount, const bool *value)
 {
     if (_connected)
     {
@@ -596,7 +598,7 @@ __declspec(dllexport) int modbus::modbus_write_coils(uint16_t address, uint16_t 
  * @param amount  Amount of Value to Write
  * @param value   Values to Be Written to the Registers
  */
-__declspec(dllexport) int modbus::modbus_write_registers(uint16_t address, uint16_t amount, const uint16_t *value)
+__attribute__((visibility("default"))) int modbus::modbus_write_registers(uint16_t address, uint16_t amount, const uint16_t *value)
 {
     if (_connected)
     {
@@ -626,7 +628,7 @@ __declspec(dllexport) int modbus::modbus_write_registers(uint16_t address, uint1
  * @param length  Length of the Request
  * @return        Size of the request
  */
-__declspec(dllexport) ssize_t modbus::modbus_send(uint8_t *to_send, size_t length)
+__attribute__((visibility("default"))) ssize_t modbus::modbus_send(uint8_t *to_send, size_t length)
 {
     _msg_id++;
     return send(_socket, (const char *)to_send, (size_t)length, 0);
@@ -637,18 +639,18 @@ __declspec(dllexport) ssize_t modbus::modbus_send(uint8_t *to_send, size_t lengt
  * @param buffer Buffer to Store the Data Retrieved
  * @return       Size of Incoming Data
  */
-__declspec(dllexport) ssize_t modbus::modbus_receive(uint8_t *buffer) const
+__attribute__((visibility("default"))) ssize_t modbus::modbus_receive(uint8_t *buffer) const
 {
     return recv(_socket, (char *)buffer, MAX_MSG_LENGTH, 0);
 }
 
-__declspec(dllexport) void modbus::set_bad_con()
+__attribute__((visibility("default"))) void modbus::set_bad_con()
 {
     err = true;
     error_msg = "BAD CONNECTION";
 }
 
-__declspec(dllexport) void modbus::set_bad_input()
+__attribute__((visibility("default"))) void modbus::set_bad_input()
 {
     err = true;
     error_msg = "BAD FUNCTION INPUT";
@@ -659,7 +661,7 @@ __declspec(dllexport) void modbus::set_bad_input()
  * @param msg   Message Received from the Server
  * @param func  Modbus Functional Code
  */
-__declspec(dllexport) void modbus::modbuserror_handle(const uint8_t *msg, int func)
+__attribute__((visibility("default"))) void modbus::modbuserror_handle(const uint8_t *msg, int func)
 {
     err = false;
     error_msg = "NO ERR";

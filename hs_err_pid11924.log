@@ -55,7 +55,7 @@ RIP=0x00007ffbad841d04, EFLAGS=0x0000000000010202
 
 Register to memory mapping:
 
-RIP=0x00007ffbad841d04 modbuspp_interface.dll
+RIP=0x00007ffbad841d04 com.thiago.modbuspp_interface.dll
 RAX=0x0000000000000001 is an unknown value
 RBX={method} {0x00000140806f8d00} 'linkToNative' '(JJIILjava/lang/Object;)I' in 'java/lang/invoke/MethodHandle'
 RCX=0x00000140fecd60c0 points into unknown readable memory: 0x00000000fecd6600 | 00 66 cd fe 00 00 00 00
@@ -70,7 +70,7 @@ RSI=0x00000000a74e6910 is an oop: jdk.internal.foreign.abi.NativeEntryPoint
 RDI=0x0000000000000001 is an unknown value
 R8 =0x0000000000000001 is an unknown value
 R9 =0x0000000000000001 is an unknown value
-R10=0x00007ffbad8411f0 modbuspp_interface.dll
+R10=0x00007ffbad8411f0 com.thiago.modbuspp_interface.dll
 R11=0x00000140f2ccfa60 is at entry_point+0 in (nmethod*)0x00000140f2ccf910
 Compiled method (n/a)     486  410     n 0       java.lang.invoke.MethodHandle::linkToNative(JJIIL)I (native)
  total in heap  [0x00000140f2ccf910,0x00000140f2ccfa68] = 344

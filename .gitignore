@@ -39,7 +39,12 @@ build/
 
 ## C/C++ compiler objects
 *.dll
+*.so
 *.exp
 *.lib
 *.obj
+*.exe
+
+## JVM logs
+*.log
 
